@@ -11,27 +11,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Slf4j
 @RequiredArgsConstructor
+@RequestMapping("/login")
 @Controller
-public class UserController {
+public class LoginController {
     private final UserService userService;
-    @GetMapping("/user/join")
+    @GetMapping("")
+    public String loginForm() {
+        return "/user/loginForm";
+    }
+    @GetMapping("/join")
     public String joinForm() {
         // 따로 valid 처리안함.
         return "/user/joinForm";
     }
-    @PostMapping("/user/join")
+
+    @PostMapping("/join")
     public String join(UserAccountDto userAccountDto) {
         log.info("[UserController - join]");
         userService.saveUser(userAccountDto);
         return "redirect:/home";
-    }
-
-    @GetMapping("/user/login")
-    public String loginForm() {
-        return "/user/loginForm";
-    }
-    @RequestMapping("/home")
-    public String home() {
-        return "home";
     }
 }

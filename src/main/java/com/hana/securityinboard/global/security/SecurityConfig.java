@@ -22,16 +22,17 @@ public class SecurityConfig {
                         .csrf(c-> c.disable())
                         .authorizeHttpRequests(auth -> auth
                                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                                .requestMatchers("/login/**","/home/**","/user/**").permitAll()
+                                .requestMatchers("/login/**").permitAll()
                                 .anyRequest().authenticated()
                                 )
                         .formLogin(form -> {
-                            form.loginPage("/user/login");
+                            form.loginPage("/login");
                             form.successForwardUrl("/home");
                         })
                         .oauth2Login(oauth -> {
-                            oauth.loginPage("/user/login");
+                            oauth.loginPage("/login");
                             oauth.userInfoEndpoint().userService(oauth2UserService);
+                            oauth.successHandler((request, response, authentication) -> response.sendRedirect("/home"));
                         })
                         .build();
     }

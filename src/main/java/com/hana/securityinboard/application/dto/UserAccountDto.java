@@ -53,8 +53,8 @@ public record UserAccountDto(
                 lastLoginIp,
                 RoleType.USER,
                 1,
-                articleCount,
-                articleCommentCount
+                0,
+                0
         );
     }
     public UserAccount toEntity() {

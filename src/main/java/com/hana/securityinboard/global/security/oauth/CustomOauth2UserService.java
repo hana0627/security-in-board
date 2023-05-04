@@ -2,7 +2,6 @@ package com.hana.securityinboard.global.security.oauth;
 
 import com.hana.securityinboard.application.domain.UserAccount;
 import com.hana.securityinboard.application.domain.constant.RoleType;
-import com.hana.securityinboard.application.repository.UserRepository;
 import com.hana.securityinboard.application.service.UserService;
 import com.hana.securityinboard.global.security.CustomPasswordEncoder;
 import com.hana.securityinboard.global.security.CustomUserDetails;
@@ -11,6 +10,7 @@ import com.hana.securityinboard.global.security.oauth.provider.impl.GoogleUserIn
 import com.hana.securityinboard.global.security.oauth.provider.impl.KakaoUserInfo;
 import com.hana.securityinboard.global.security.oauth.provider.impl.NaverUserInfo;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
@@ -18,14 +18,13 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
-import java.util.Optional;
 import java.util.UUID;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class CustomOauth2UserService extends DefaultOAuth2UserService {
     private final UserService userService;
-    private final UserRepository userRepository;
     private final CustomPasswordEncoder passwordEncoder;
 
     @Override
@@ -34,16 +33,17 @@ public class CustomOauth2UserService extends DefaultOAuth2UserService {
 
         OAuth2User oauth2User = super.loadUser(userRequest);
 
-
         Oauth2UserInfo oauth2UserInfo = null;
 
-        System.out.println("여기확인");
-        System.out.println(oauth2User.getAttributes());
-        if (userRequest.getClientRegistration().getRegistrationId().equals("google")) {
+        log.info("oauth2User.getAttributes()");
+
+//        if (userRequest.getClientRegistration().getRegistrationId().equals("google")) {
+        if (("google").equals(userRequest.getClientRegistration().getRegistrationId())) {
             oauth2UserInfo = new GoogleUserInfo(oauth2User.getAttributes());
-        } else if (userRequest.getClientRegistration().getRegistrationId().equals("naver")) {
+//        } else if (userRequest.getClientRegistration().getRegistrationId().equals("naver")) {
+        } else if (("naver").equals(userRequest.getClientRegistration().getRegistrationId())) {
             oauth2UserInfo = new NaverUserInfo((Map) oauth2User.getAttributes().get("response"));
-        } else if (userRequest.getClientRegistration().getRegistrationId().equals("kakao")) {
+        } else if (("kakao").equals(userRequest.getClientRegistration().getRegistrationId())) {
             oauth2UserInfo = new KakaoUserInfo((Map) oauth2User.getAttributes());
         }
 
@@ -53,7 +53,7 @@ public class CustomOauth2UserService extends DefaultOAuth2UserService {
         String username = provider + "_" + providerId;
         String email = oauth2UserInfo.getEmail(); 
         String password = passwordEncoder.encode("{bcrypt}dummy" + UUID.randomUUID());
-        String name = oauth2UserInfo.getName(); //구글 이상하게 찍힘google_100025900526046763060
+        String name = oauth2UserInfo.getName();
         RoleType role = RoleType.USER;
 
 
@@ -61,8 +61,9 @@ public class CustomOauth2UserService extends DefaultOAuth2UserService {
         return userService.searchUser(username)
                 .map(userAccount -> new CustomUserDetails(userAccount, oauth2User.getAttributes()))
                 .orElseGet(() -> {
-                    UserAccount savedUser = userRepository.save(UserAccount.of(username, password, email, name, role));
+                    UserAccount savedUser = userService.saveUser(UserAccount.of(username, password, email, name, role));
                     return new CustomUserDetails(savedUser, oauth2User.getAttributes());
                 });
     }
+
 }

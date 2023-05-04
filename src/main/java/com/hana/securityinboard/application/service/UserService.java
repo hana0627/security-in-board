@@ -26,7 +26,6 @@ public class UserService {
     }
 
 
-    //TODO : 유저이름 중복검증 좀 더 생각
     @Transactional
     public void saveUser(UserAccountDto userAccountDto) {
         log.info("[UserService saveUser]");
@@ -34,5 +33,14 @@ public class UserService {
             throw new IllegalStateException("로그인 아이디는 중복될 수 없습니다!");
         }
         userRepository.save(userAccountDto.toEntity(passwordEncoder));
+    }
+
+    @Transactional
+    public UserAccount saveUser(UserAccount userAccount) {
+        log.info("[UserService saveUser]");
+        if (userRepository.findByUsername(userAccount.getUsername()).isPresent()) {
+            throw new IllegalStateException("로그인 아이디는 중복될 수 없습니다!");
+        }
+        return userRepository.save(userAccount);
     }
 }
