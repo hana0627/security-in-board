@@ -17,7 +17,7 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 @Service
 public class UserService {
-    private  final CustomPasswordEncoder passwordEncoder;
+    private final CustomPasswordEncoder passwordEncoder;
 
     private final UserRepository userRepository;
 
@@ -25,9 +25,16 @@ public class UserService {
         return userRepository.findByUsername(username);
     }
 
+
+    //TODO : 유저이름 중복검증 좀 더 생각
     @Transactional
     public void saveUser(UserAccountDto userAccountDto) {
         log.info("[UserService saveUser]");
+        if (userRepository.findByUsername(userAccountDto.username()).isPresent()) {
+            throw new IllegalStateException("로그인 아이디는 중복될 수 없습니다!");
+        }
         userRepository.save(userAccountDto.toEntity(passwordEncoder));
+
+
     }
 }

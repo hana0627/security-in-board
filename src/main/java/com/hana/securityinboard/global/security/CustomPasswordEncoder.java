@@ -20,7 +20,7 @@ public class CustomPasswordEncoder implements PasswordEncoder {
 
     @Override
     public boolean matches(CharSequence rawPassword, String encodedPassword) {
-        return encodedPassword.equals(encode(rawPassword));
+        return passwordEncoder.matches(rawPassword, encodedPassword);
     }
 
 }
