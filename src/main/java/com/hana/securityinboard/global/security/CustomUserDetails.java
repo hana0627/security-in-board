@@ -3,18 +3,25 @@ package com.hana.securityinboard.global.security;
 import com.hana.securityinboard.application.domain.UserAccount;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 
-public class CustomUserDetails implements UserDetails {
+public class CustomUserDetails implements UserDetails, OAuth2User {
 
     private UserAccount userAccount;
     private Map<String, Object> attributes;
 
+    // form 로그인
     public CustomUserDetails(UserAccount userAccount) {
         this.userAccount = userAccount;
+    }
+    //Oauth 로그인
+    public CustomUserDetails(UserAccount userAccount, Map<String, Object> attributes) {
+        this.userAccount = userAccount;
+        this.attributes = attributes;
     }
 
     @Override
@@ -26,6 +33,8 @@ public class CustomUserDetails implements UserDetails {
     public String getPassword() {
         return userAccount.getPassword();
     }
+
+
 
     //TODO : 제대로 들어가는지 확인
     @Override
@@ -59,5 +68,15 @@ public class CustomUserDetails implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    //Oauth2
+    @Override
+    public String getName() {
+        return null;
+    }
+    @Override
+    public Map<String, Object> getAttributes() {
+        return attributes;
     }
 }

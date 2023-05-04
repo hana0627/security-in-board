@@ -20,11 +20,11 @@ public class UserAccount {
     private Long id;
     @Column(nullable = false, length = 255)
     private String username; // 로그인아이디
-    @Column(nullable = false, length = 255)
+    @Column(length = 255)
     private String password; //비밀번호
-    @Column(nullable = false, length = 100)
+    @Column(length = 100)
     private String email; //이메일
-    @Column(nullable = false, length = 100)
+    @Column(length = 100)
     private String name;// 이름
     private LocalDateTime accountDate; //계정 생성일자
     private LocalDateTime lastLoginDate; // 마지막 접속일
@@ -38,6 +38,9 @@ public class UserAccount {
     private Integer articleCount; // 몇개의 게시글
     private Integer articleCommentCount; //몇개의 댓글
 
+    public static UserAccount of(String username, String password, String email, String name, RoleType role) {
+        return of(username, password, email, name, LocalDateTime.now(), LocalDateTime.now(), null, role, 1, 0, 0);
+    }
 
     public static UserAccount of(String username, String password, String email, String name, LocalDateTime accountDate, LocalDateTime lastLoginDate, String lastLoginIp, RoleType roleType, Integer loginDay, Integer articleCount, Integer articleCommentCount) {
         return new UserAccount(username, password, email, name, accountDate, lastLoginDate, lastLoginIp, roleType, loginDay, articleCount, articleCommentCount);
@@ -57,4 +60,6 @@ public class UserAccount {
         this.articleCount = articleCount;
         this.articleCommentCount = articleCommentCount;
     }
+
+
 }

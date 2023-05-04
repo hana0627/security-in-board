@@ -2,7 +2,6 @@ package com.hana.securityinboard.application.controller;
 
 import com.hana.securityinboard.application.dto.UserAccountDto;
 import com.hana.securityinboard.application.service.UserService;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -17,13 +16,18 @@ public class UserController {
     @GetMapping("/user/join")
     public String joinForm() {
         // 따로 valid 처리안함.
-        return "/user/loginForm";
+        return "/user/joinForm";
     }
     @PostMapping("/user/join")
     public String join(UserAccountDto userAccountDto) {
         log.info("[UserController - join]");
         userService.saveUser(userAccountDto);
         return "redirect:/home";
+    }
+
+    @GetMapping("/user/login")
+    public String loginForm() {
+        return "/user/loginForm";
     }
     @GetMapping("/home")
     public String home() {
