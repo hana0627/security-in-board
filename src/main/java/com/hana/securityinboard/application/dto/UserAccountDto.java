@@ -2,6 +2,7 @@ package com.hana.securityinboard.application.dto;
 
 import com.hana.securityinboard.application.domain.UserAccount;
 import com.hana.securityinboard.application.domain.constant.RoleType;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.time.LocalDateTime;
 
@@ -40,10 +41,26 @@ public record UserAccountDto(
         );
     }
 
+    //TODO : 현재는 회원가입용으로만 생각하고 구현하였음
+    public UserAccount toEntity(PasswordEncoder passwordEncoder) {
+        return UserAccount.of(
+                username,
+                passwordEncoder.encode(password), //저장시 암호화 수행
+                email,
+                name,
+                LocalDateTime.now(),
+                LocalDateTime.now(),
+                lastLoginIp,
+                RoleType.USER,
+                1,
+                articleCount,
+                articleCommentCount
+        );
+    }
     public UserAccount toEntity() {
         return UserAccount.of(
                 username,
-                password,
+                password, //저장시 암호화 수행
                 email,
                 name,
                 accountDate,
@@ -55,6 +72,8 @@ public record UserAccountDto(
                 articleCommentCount
         );
     }
+
+
     public UserAccountDto(String username, String password, String email, String name, LocalDateTime accountDate, LocalDateTime lastLoginDate, String lastLoginIp, RoleType roleType, Integer loginDay, Integer articleCount, Integer articleCommentCount) {
         this.username = username;
         this.password = password;

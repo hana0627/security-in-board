@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 import java.time.LocalDateTime;
 
@@ -28,9 +29,9 @@ public class UserAccount {
     private String name;// 이름
     private LocalDateTime accountDate; //계정 생성일자
     private LocalDateTime lastLoginDate; // 마지막 접속일
-    @Column(nullable = false, length = 100)
+    @Column(length = 100)
     private String lastLoginIp; // 마지막접속한ip
-    @Column(nullable = false, length = 100)
+    @Column(length = 100)
     @Convert(converter = RoleTypesConverter.class)
     private RoleType roleType; // 관리자, 운영자, 유저 한명은 한개의 Role만 가질 수 있음
 
