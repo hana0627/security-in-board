@@ -18,7 +18,7 @@ public class UserAccount {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Long id;
-    @Column(nullable = false, length = 255)
+    @Column(nullable = false, length = 255,unique = true)
     private String username; // 로그인아이디
     @Column(length = 255)
     private String password; //비밀번호
