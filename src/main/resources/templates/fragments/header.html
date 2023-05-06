@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Header</title>
+</head>
+<body>
+<header>
+    <div sec:authorize="isAuthenticated()">
+        <a th:href="@{/logout}" role="button" id="logout" class="me-2">
+            <!--      <span th:text="${principal.nickname}"></span>님 안녕하세요-->
+            로그아웃
+        </a>
+    </div>
+    <div sec:authorize="!isAuthenticated()">
+        <a th:href="@{/login}" role="button" id="login" class="me-2">
+            <!--      <span th:text="${principal.nickname}"></span>님 안녕하세요-->
+            로그인
+        </a>
+    </div>
+</header>
+</body>
+</html>

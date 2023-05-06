@@ -2,37 +2,38 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>게시판 목록</title>
-    <style>
-        /* 게시판 목록을 가운데 정렬하기 위한 스타일 */
-        .container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-
-        /* 게시판 목록 링크 스타일 */
-        .board-link {
-            display: inline-block;
-            padding: 20px;
-            margin: 10px;
-            border: 1px solid black;
-            text-align: center;
-            font-size: 24px;
-            font-weight: bold;
-            text-decoration: none;
-            color: black;
-            background-color: white;
-            transition: background-color 0.3s ease-in-out;
-        }
-
-        /* 마우스 오버시 배경색 변경 */
-        .board-link:hover {
-            background-color: gray;
-        }
-    </style>
+    <title>홈</title>
+    <div th:insert="~{fragments/header :: header}"></div>
 </head>
+<style>
+    /* 게시판 목록을 가운데 정렬하기 위한 스타일 */
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    /* 게시판 목록 링크 스타일 */
+    .board-link {
+        display: inline-block;
+        padding: 20px;
+        margin: 10px;
+        border: 1px solid black;
+        text-align: center;
+        font-size: 24px;
+        font-weight: bold;
+        text-decoration: none;
+        color: black;
+        background-color: white;
+        transition: background-color 0.3s ease-in-out;
+    }
+
+    /* 마우스 오버시 배경색 변경 */
+    .board-link:hover {
+        background-color: gray;
+    }
+</style>
 <body>
 <div class="container">
     <a href="/board/a" class="board-link">A게시판</a>
