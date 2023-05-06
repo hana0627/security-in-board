@@ -58,10 +58,10 @@ public class SecurityConfig {
                         .authorizeHttpRequests(auth -> auth
                                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                                 .requestMatchers("/login/**").permitAll()
-                                .requestMatchers("/article/a/**").hasAnyRole(roleType1)
-                                .requestMatchers("/article/b/**").hasAnyRole(roleType2)
-                                .requestMatchers("/article/c/**").hasAnyRole(roleType3)
-                                .requestMatchers("/article/d/**").hasAnyRole(roleType4)
+//                                .requestMatchers("/article/a/**").hasAnyRole(roleType1)
+//                                .requestMatchers("/article/b/**").hasAnyRole(roleType2)
+//                                .requestMatchers("/article/c/**").hasAnyRole(roleType3)
+//                                .requestMatchers("/article/d/**").hasAnyRole(roleType4)
                                 .anyRequest().authenticated()
                         )
                         .formLogin(form -> {
