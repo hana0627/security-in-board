@@ -51,7 +51,7 @@ public record UserAccountDto(
                 LocalDateTime.now(),
                 LocalDateTime.now(),
                 lastLoginIp,
-                RoleType.USER,
+                RoleType.SILVER,
                 1,
                 0,
                 0

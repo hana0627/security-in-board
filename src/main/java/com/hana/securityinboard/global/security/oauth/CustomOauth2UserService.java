@@ -60,7 +60,7 @@ public class CustomOauth2UserService extends DefaultOAuth2UserService {
         String email = oauth2UserInfo.getEmail();
         String password = passwordEncoder.encode("{bcrypt}dummy" + UUID.randomUUID());
         String name = oauth2UserInfo.getName();
-        RoleType role = RoleType.USER;
+        RoleType role = RoleType.SILVER;
 
 
         //searchUser 해서 값이 있으면(이미 한번이상 로그인한 회원) 바로 return, 없으면 객체를 생성해서 return

@@ -5,7 +5,10 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public enum RoleType {
-    USER("ROLE_USER", "사용자"),
+    SILVER("ROLE_SILVER", "실버등급"),
+    ORANGE("ROLE_ORANGE", "오렌지등급"),
+    RED("ROLE_RED", "레드등급"),
+    VIP("ROLE_VIP", "VIP"),
     MANAGER("ROLE_MANAGER", "운영자"),
     ADMIN("ROLE_ADMIN", "관리자");
 
