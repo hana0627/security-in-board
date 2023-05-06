@@ -10,12 +10,13 @@ public record ArticleDto(
         UserAccount userAccount,
         String title,
         String content,
-        LocalDateTime createDate
+        LocalDateTime createDate,
+        String board
 ) {
 
 
-    public static ArticleDto of(UserAccount userAccount, String title, String content, LocalDateTime createDate) {
-        return new ArticleDto(userAccount, title, content, createDate);
+    public static ArticleDto of(UserAccount userAccount, String title, String content, LocalDateTime createDate, String board) {
+        return new ArticleDto(userAccount, title, content, createDate, board);
     }
 
     public static ArticleDto form(Article article) {
@@ -23,19 +24,21 @@ public record ArticleDto(
                 article.getUserAccount(),
                 article.getTitle(),
                 article.getContent(),
-                article.getCreateDate()
+                article.getCreateDate(),
+                article.getBoard()
         );
     }
 
     public Article toEntity() {
-        return Article.of(userAccount, title, content, createDate);
+        return Article.of(userAccount, title, content, createDate, board);
     }
 
-    public ArticleDto(UserAccount userAccount, String title, String content, LocalDateTime createDate) {
+    public ArticleDto(UserAccount userAccount, String title, String content, LocalDateTime createDate, String board) {
         this.userAccount = userAccount;
         this.title = title;
         this.content = content;
         this.createDate = createDate;
+        this.board = board;
     }
 
 }

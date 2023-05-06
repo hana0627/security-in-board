@@ -18,7 +18,7 @@ public class ArticleController {
 
     @GetMapping("/a")
     public String ArticleA() {
-        articleService.searchArticles();
+        articleService.searchAArticles();
         return "/article/aList";
     }
     @GetMapping("/b")

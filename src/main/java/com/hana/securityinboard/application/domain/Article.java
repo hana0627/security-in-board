@@ -28,17 +28,21 @@ public class Article {
     private String content; // 본문
     @CreatedDate
     private LocalDateTime createDate; // 작성시간
+
+    @Column(length = 100)
+    private String board; //어느게시판에 작성되었는지
     @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
     private final List<ArticleComment> articleComments = new LinkedList<>();
 
-    public static Article of(UserAccount userAccount, String title, String content, LocalDateTime createDate) {
-        return new Article(userAccount, title, content, createDate);
+    public static Article of(UserAccount userAccount, String title, String content, LocalDateTime createDate, String board) {
+        return new Article(userAccount, title, content, createDate, board);
     }
 
-    private Article(UserAccount userAccount, String title, String content, LocalDateTime createDate) {
+    private Article(UserAccount userAccount, String title, String content, LocalDateTime createDate, String board) {
         this.userAccount = userAccount;
         this.title = title;
         this.content = content;
         this.createDate = createDate;
+        this.board = board;
     }
 }
