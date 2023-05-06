@@ -11,13 +11,19 @@ import com.hana.securityinboard.global.security.oauth.provider.impl.KakaoUserInf
 import com.hana.securityinboard.global.security.oauth.provider.impl.NaverUserInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
+import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 @Slf4j
@@ -51,19 +57,33 @@ public class CustomOauth2UserService extends DefaultOAuth2UserService {
         String provider = oauth2UserInfo.getProvider();
         String providerId = oauth2UserInfo.getProviderId();
         String username = provider + "_" + providerId;
-        String email = oauth2UserInfo.getEmail(); 
+        String email = oauth2UserInfo.getEmail();
         String password = passwordEncoder.encode("{bcrypt}dummy" + UUID.randomUUID());
         String name = oauth2UserInfo.getName();
         RoleType role = RoleType.USER;
 
 
         //searchUser 해서 값이 있으면(이미 한번이상 로그인한 회원) 바로 return, 없으면 객체를 생성해서 return
-        return userService.searchUser(username)
+        CustomUserDetails customUserDetails = userService.searchUser(username)
                 .map(userAccount -> new CustomUserDetails(userAccount, oauth2User.getAttributes()))
                 .orElseGet(() -> {
                     UserAccount savedUser = userService.saveUser(UserAccount.of(username, password, email, name, role));
                     return new CustomUserDetails(savedUser, oauth2User.getAttributes());
                 });
+
+
+
+        // create authorities
+        Set<GrantedAuthority> authorities = new HashSet<>();
+        authorities.add(new SimpleGrantedAuthority(customUserDetails.getUserAccount().getRoleType().getRoleName()));
+
+        // create authentication
+//        OAuth2AccessToken accessToken = new OAuth2AccessToken(OAuth2AccessToken.TokenType.BEARER, token, issuedAt, expiresAt);
+//        OAuth2AuthenticationToken authenticationToken = new OAuth2AuthenticationToken(
+//                customUserDetails, authorities, userRequest.getClientRegistration().getRegistrationId(), accessToken);
+
+        return customUserDetails;
+
     }
 
 }
