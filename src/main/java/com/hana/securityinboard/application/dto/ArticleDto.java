@@ -7,6 +7,7 @@ import com.hana.securityinboard.application.domain.constant.RoleType;
 import java.time.LocalDateTime;
 
 public record ArticleDto(
+        Long id,
         UserAccount userAccount,
         String title,
         String content,
@@ -16,11 +17,12 @@ public record ArticleDto(
 
 
     public static ArticleDto of(UserAccount userAccount, String title, String content, LocalDateTime createDate, String board) {
-        return new ArticleDto(userAccount, title, content, createDate, board);
+        return new ArticleDto(null ,userAccount, title, content, createDate, board);
     }
 
     public static ArticleDto form(Article article) {
         return new ArticleDto(
+                article.getId(),
                 article.getUserAccount(),
                 article.getTitle(),
                 article.getContent(),
@@ -33,7 +35,8 @@ public record ArticleDto(
         return Article.of(userAccount, title, content, createDate, board);
     }
 
-    public ArticleDto(UserAccount userAccount, String title, String content, LocalDateTime createDate, String board) {
+    public ArticleDto(Long id, UserAccount userAccount, String title, String content, LocalDateTime createDate, String board) {
+        this.id = id;
         this.userAccount = userAccount;
         this.title = title;
         this.content = content;

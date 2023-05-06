@@ -11,20 +11,18 @@
         <table class="table table-striped">
             <thead>
             <tr>
-                <th>#</th>
-                <th>이름</th>
-                <th>도시</th>
-                <th>주소</th>
-                <th>우편번호</th>
+                <th>순번(미구현)</th>
+                <th>제목</th>
+                <th>작성자</th>
+                <th>작성일</th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="member : ${members}">
-                <td th:text="${member.id}"></td>
-                <td th:text="${member.name}"></td>
-                <td th:text="${member?.city}"></td>
-                <td th:text="${member?.street}"></td>
-                <td th:text="${member?.zipcode}"></td>
+            <tr th:each="article : ${articles}">
+                <td>1</td>
+                <a th:href="@{/show/{id}(id=${article.id})}" th:text="${article.title}"></a>
+                <td th:text="${article.userAccount}"></td>
+                <td th:text="${article.createDate}"></td>
             </tr>
             </tbody>
         </table>

@@ -1,0 +1,33 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>A게시판</title>
+    <div th:insert="~{fragments/header :: header}"></div>
+</head>
+<body>
+<div class="container">
+    <div>
+        <table class="table table-striped">
+            <tr>
+                <th>제목</th>
+                <td th:text="${article.title}"></td>
+            </tr>
+            <tr>
+                <th>작성자</th>
+                <td th:text="${article.userAccount}"></td>
+            </tr>
+            <tr>
+                <th>내용</th>
+            </tr>
+            <td th:text="${article.content}"></td>
+            <tr>
+                <th>제목</th>
+                <td th:text="${article.userAccount}"></td>
+            </tr>
+        </table>
+    </div>
+    <div th:replace="fragments/footer :: footer"/>
+</div> <!-- /container -->
+</body>
+</html>
