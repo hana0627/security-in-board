@@ -1,14 +1,15 @@
 package com.hana.securityinboard.global.security;
 
+//import com.hana.securityinboard.global.security.jwt.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.beans.factory.annotation.Value;
+        import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Service;
+        import org.springframework.stereotype.Service;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -19,12 +20,20 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     private final CustomUserDetailsService userDetailsService;
 
 
+    @Value("${jwt.header}")
+    String jwtHeader;
+    @Value("${jwt.secret}")
+    String jwtSecret;
+    @Value("${jwt.token-validity-in-seconds}")
+    String jwtRestTime;
+
+
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         log.info("[CustomAuthenticationProvider] authentication : {}", authentication);
         String username = authentication.getName();
         String password = authentication.getCredentials().toString();
-        UserDetails u = userDetailsService.loadUserByUsername(username);
+        CustomUserDetails u = userDetailsService.loadUserByUsername(username);
         if(passwordEncoder.matches(password,u.getPassword())) {
             return new UsernamePasswordAuthenticationToken(username, password, authentication.getAuthorities());
         }
@@ -35,4 +44,5 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     public boolean supports(Class<?> authentication) {
         return UsernamePasswordAuthenticationToken.class.isAssignableFrom(authentication);
     }
+
 }

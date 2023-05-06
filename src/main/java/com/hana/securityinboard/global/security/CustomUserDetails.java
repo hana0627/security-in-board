@@ -4,6 +4,7 @@ import com.hana.securityinboard.application.domain.UserAccount;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -22,6 +23,9 @@ public class CustomUserDetails implements UserDetails, OAuth2User {
     public CustomUserDetails(UserAccount userAccount, Map<String, Object> attributes) {
         this.userAccount = userAccount;
         this.attributes = attributes;
+    }
+    public UserAccount getUserAccount() {
+        return userAccount;
     }
 
     @Override

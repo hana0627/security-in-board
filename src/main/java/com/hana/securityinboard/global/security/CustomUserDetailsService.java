@@ -16,9 +16,9 @@ import java.util.Optional;
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
     private final UserService userService;
-    private List<UserDetails> userDetailsList;
+    private List<CustomUserDetails> userDetailsList;
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public CustomUserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<UserAccount> userAccount = userService.searchUser(username);
 
         return userAccount.map(CustomUserDetails::new).orElseThrow(() -> new UsernameNotFoundException("회원이 존재하지 않습니다!"));
