@@ -4,6 +4,7 @@ import com.hana.securityinboard.application.dto.UserAccountDto;
 import com.hana.securityinboard.application.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,7 +32,8 @@ public class UserController {
         return "/user/loginForm";
     }
     @RequestMapping("/home")
-    public String home() {
+    public String home(Authentication auth) {
+        log.info("[UserController home] - auth : {}" , auth);
         return "home";
     }
 }

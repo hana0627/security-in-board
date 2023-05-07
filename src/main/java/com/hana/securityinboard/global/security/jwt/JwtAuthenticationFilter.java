@@ -43,12 +43,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private String jwtTokenPrefix;
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
-        log.info("jwtHeader = {}", jwtHeader);
-        log.info("jwtSecret = {}", jwtSecret);
-        log.info("jwtRestTime = {}", jwtRestTime);
-        log.info("jwtTokenPrefix = {}", jwtTokenPrefix);
-
-        String jwtHeaderGet = request.getHeader(jwtHeader);
+        String jwtHeaderGet = request.getHeader("Authorization");
+        log.info("jwtHeaderGet : {}", jwtHeaderGet);
         // 헤더가 있는지 확인
         if(jwtHeaderGet == null || !jwtHeaderGet.startsWith(jwtTokenPrefix)) {
             chain.doFilter(request, response);
@@ -56,13 +52,14 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         }
 
         String jwtToken = jwtHeaderGet.replace(jwtTokenPrefix, "");
-
+        log.info("jwtToken : {}", jwtToken);
         // 유저정보 확인
         String username =
                 JWT.require(Algorithm.HMAC512(jwtSecret)).build().verify(jwtToken).getClaim("username").asString();
 
         //
         if (username != null) {
+            log.info("username : {}", username);
             Optional<UserAccount> userAccount = userService.searchUser(username);
             UserAccount user = userAccount.get();
 

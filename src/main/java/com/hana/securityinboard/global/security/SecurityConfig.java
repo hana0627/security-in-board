@@ -3,6 +3,9 @@ package com.hana.securityinboard.global.security;
 import com.hana.securityinboard.application.domain.constant.RoleType;
 import com.hana.securityinboard.application.service.UserService;
 import com.hana.securityinboard.global.security.oauth.CustomOauth2UserService;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
@@ -10,7 +13,14 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+
+import java.io.IOException;
 
 @RequiredArgsConstructor
 @EnableWebSecurity
@@ -54,10 +64,10 @@ public class SecurityConfig {
         return
                 http
                         .csrf(c -> c.disable())
-                        .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+//                        .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                         .authorizeHttpRequests(auth -> auth
                                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                                .requestMatchers("/login/**").permitAll()
+                                .requestMatchers("/login/**","/home/**").permitAll()
 //                                .requestMatchers("/article/a/**").hasAnyRole(roleType1)
 //                                .requestMatchers("/article/b/**").hasAnyRole(roleType2)
 //                                .requestMatchers("/article/c/**").hasAnyRole(roleType3)
@@ -66,16 +76,34 @@ public class SecurityConfig {
                         )
                         .formLogin(form -> {
                             form.loginPage("/login");
-                            form.successHandler(new CustomAuthenticationSuccessHandler(userDetailsService));
-                            form.successForwardUrl("/home");
+                            form.successHandler(customAuthenticationSuccessHandler());
+                            form.successHandler(customAuthenticationSuccessHandler());
+//                            form.successForwardUrl("/home");
                         })
                         .oauth2Login(oauth -> {
                             oauth.loginPage("/login");
                             oauth.userInfoEndpoint().userService(oauth2UserService);
-                            oauth.successHandler(new CustomAuthenticationSuccessHandler(userDetailsService));
+                            oauth.successHandler(customAuthenticationSuccessHandler());
+                            oauth.defaultSuccessUrl("/home");
                         })
+                        .sessionManagement(session -> session
+                                .maximumSessions(1)
+                                .maxSessionsPreventsLogin(true)
+                                .sessionRegistry(sessionRegistry())
+                        )
 //                        .addFilterBefore(new JwtAuthenticationFilter(userDetailsService, userService), UsernamePasswordAuthenticationFilter.class)
                         .build();
     }
 
+    @Bean
+    public SessionRegistry sessionRegistry() {
+        return new SessionRegistryImpl();
+    }
+
+    @Bean
+    public AuthenticationSuccessHandler customAuthenticationSuccessHandler() {
+        return new CustomAuthenticationSuccessHandler(userDetailsService);
+    }
 }
+
+
