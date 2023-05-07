@@ -41,45 +41,23 @@ public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthent
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws ServletException, IOException {
         if (authentication.isAuthenticated()) {
             log.info("인증성공!");
-            log.info("[CustomAuthenticationSuccessHandler onAuthenticationSuccess] authentication : {} ", authentication);
+            CustomUserDetails u = userDetailsService.loadUserByUsername(authentication.getName());
+            // 비밀번호가 같다면 jwt 토큰 생성
+            String token = JWT.create()
+                    .withSubject(u.getUsername())// 토큰이름
+                    .withExpiresAt(new Date(System.currentTimeMillis() + Integer.parseInt(jwtRestTime))) // 토큰 지속시간
+                    .withExpiresAt(new Date(System.currentTimeMillis() + 86400)) // 토큰 지속시간
+                    // payLoad에 들어갈 내용
+                    .withClaim("id", u.getUserAccount().getId())
+                    .withClaim("username", u.getUserAccount().getUsername())
+                    .withClaim("auth", u.getUserAccount().getRoleType().getRoleName())
+                    .sign(Algorithm.HMAC512("mySecretKey"));
+
+            log.info("Authorization : {}", "Bearer " + token);
+            response.addHeader("Authorization", "Bearer " + token);
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            response.sendRedirect("/home");
-        } else {
-            // 인증되지 않은 경우에 대한 예외 처리
-            log.info("인증예외!");
-            response.sendRedirect("/login?error");
+            response.setStatus(HttpServletResponse.SC_MOVED_TEMPORARILY);
+            response.setHeader("Location", "/home");
         }
     }
-
-//    @Override
-//    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-//        response.sendRedirect("/home");
-//
-//        log.info("[CustomAuthenticationSuccessHandler onAuthenticationSuccess] - called");
-//        log.info("[CustomAuthenticationSuccessHandler onAuthenticationSuccess] authentication : {}" ,authentication);
-
-//        CustomUserDetails u = userDetailsService.loadUserByUsername(authentication.getName());
-//비밀번호가 같다면 jwt 토큰 생성
-//        String token = JWT.create()
-//                .withSubject(u.getUsername())// 토큰이름
-//                .withExpiresAt(new Date(System.currentTimeMillis() + Integer.parseInt(jwtRestTime))) // 토큰 지속시간
-//                .withExpiresAt(new Date(System.currentTimeMillis() + 86400)) // 토큰 지속시간
-//                payLoad에 들어갈 내용
-//                .withClaim("id", u.getUserAccount().getId())
-//                .withClaim("username", u.getUserAccount().getUsername())
-//                .withClaim("auth", u.getUserAccount().getRoleType().getRoleName())
-//                .sign(Algorithm.HMAC512("mySecretKey"));
-
-//        Set<GrantedAuthority> authorities = new HashSet<>();
-//        authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-
-//        SecurityContextHolder.getContext().setAuthentication(authentication);
-
-//        response.setHeader("Authorization","Bearer " +token);
-//        log.info("Authorization : {}","Bearer " +token);
-//        response.setHeader("Authorization","Bearer " +token);
-//        setDefaultTargetUrl("/home");
-//        super.onAuthenticationSuccess(request, response, authentication);
-//    }
-
 }

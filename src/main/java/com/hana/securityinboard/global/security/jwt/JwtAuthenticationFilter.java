@@ -24,6 +24,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Enumeration;
 import java.util.Optional;
 
 @Slf4j
@@ -43,6 +44,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private String jwtTokenPrefix;
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
+        log.info("[JwtAuthenticationFilter doFilterInternal] : {}" ,String.valueOf(request));
+
+
+        Enumeration<String> headerNames = request.getHeaderNames();
+//        while(headerNames.hasMoreElements()) {
+//            log.info("=== 반복문 시작 ===");
+//            String headerName = headerNames.nextElement();
+//            String headerValue = request.getHeader(headerName);
+//            System.out.println(headerName + " : " + headerValue);
+//        }
+
         String jwtHeaderGet = request.getHeader("Authorization");
         log.info("jwtHeaderGet : {}", jwtHeaderGet);
         // 헤더가 있는지 확인

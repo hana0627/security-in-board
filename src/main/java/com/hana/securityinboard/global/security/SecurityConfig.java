@@ -64,7 +64,12 @@ public class SecurityConfig {
         return
                 http
                         .csrf(c -> c.disable())
-//                        .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                        .sessionManagement(s -> s
+                                .maximumSessions(1)
+                                .maxSessionsPreventsLogin(true)
+                                .sessionRegistry(sessionRegistry())
+                        )
+                        .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                         .authorizeHttpRequests(auth -> auth
                                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                                 .requestMatchers("/login/**","/home/**").permitAll()
@@ -105,5 +110,3 @@ public class SecurityConfig {
         return new CustomAuthenticationSuccessHandler(userDetailsService);
     }
 }
-
-
