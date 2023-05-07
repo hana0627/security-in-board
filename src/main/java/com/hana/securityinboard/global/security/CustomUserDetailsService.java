@@ -2,16 +2,12 @@ package com.hana.securityinboard.global.security;
 
 import com.hana.securityinboard.application.domain.UserAccount;
 import com.hana.securityinboard.application.service.UserService;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.management.InstanceNotFoundException;
-import javax.print.event.PrintEvent;
 import java.util.List;
 import java.util.Optional;
 

@@ -4,6 +4,8 @@ import com.hana.securityinboard.application.dto.ArticleDto;
 import com.hana.securityinboard.application.service.ArticleService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,29 +25,29 @@ public class ArticleController {
 
 
     @GetMapping("/a")
-    public String ArticleA(Model model) {
-        List<ArticleDto> articles = articleService.searchArticles("A");
+    public String ArticleA(Model model, Pageable pageable) {
+        Page<ArticleDto> articles = articleService.searchArticles("A", pageable);
         model.addAttribute("articles", articles);
         return "article/articleList";
     }
 
     @GetMapping("/b")
-    public String ArticleB(Model model) {
-        List<ArticleDto> articles = articleService.searchArticles("B");
+    public String ArticleB(Model model, Pageable pageable) {
+        Page<ArticleDto> articles = articleService.searchArticles("B", pageable);
         model.addAttribute("articles", articles);
         return "article/articleList";
     }
 
     @GetMapping("/c")
-    public String ArticleC(Model model) {
-        List<ArticleDto> articles = articleService.searchArticles("C");
+    public String ArticleC(Model model, Pageable pageable) {
+        Page<ArticleDto> articles = articleService.searchArticles("C", pageable);
         model.addAttribute("articles", articles);
         return "article/articleList";
     }
 
     @GetMapping("/d")
-    public String ArticleD(Model model) {
-        List<ArticleDto> articles = articleService.searchArticles("D");
+    public String ArticleD(Model model, Pageable pageable) {
+        Page<ArticleDto> articles = articleService.searchArticles("D", pageable);
         model.addAttribute("articles", articles);
         return "article/articleList";
     }

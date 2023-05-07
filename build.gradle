@@ -1,6 +1,7 @@
 buildscript {
     ext {
         queryDslVersion = "5.0.0"
+//        queryDslVersion = "5.4.0"
     }
 }
 plugins {
@@ -38,6 +39,10 @@ dependencies {
     annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jakarta"
     annotationProcessor "jakarta.annotation:jakarta.annotation-api"
     annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+//    implementation 'com.querydsl:querydsl-jpa:5.4.0'
+//    annotationProcessor "com.querydsl:querydsl-jpa-apt:${queryDslVersion}"
+//    annotationProcessor "jakarta.annotation:jakarta.annotation-api"
+//    annotationProcessor "jakarta.persistence:jakarta.persistence-api"
 
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
