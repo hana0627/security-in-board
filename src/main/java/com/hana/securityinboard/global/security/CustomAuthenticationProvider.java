@@ -9,7 +9,8 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-        import org.springframework.stereotype.Service;
+import org.springframework.security.web.authentication.WebAuthenticationDetails;
+import org.springframework.stereotype.Service;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -33,7 +34,9 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         log.info("[CustomAuthenticationProvider] authentication : {}", authentication);
         String username = authentication.getName();
         String password = authentication.getCredentials().toString();
-        CustomUserDetails u = userDetailsService.loadUserByUsername(username);
+        WebAuthenticationDetails details = (WebAuthenticationDetails) authentication.getDetails();
+        String remoteAddress = details.getRemoteAddress();
+        CustomUserDetails u = userDetailsService.customLoadUserByUsername(username, remoteAddress);
         if(passwordEncoder.matches(password,u.getPassword())) {
             return new UsernamePasswordAuthenticationToken(username, password, authentication.getAuthorities());
         }

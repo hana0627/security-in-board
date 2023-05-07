@@ -69,7 +69,7 @@ public class SecurityConfig {
                                 .maxSessionsPreventsLogin(true)
                                 .sessionRegistry(sessionRegistry())
                         )
-                        .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+//                        .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                         .authorizeHttpRequests(auth -> auth
                                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                                 .requestMatchers("/login/**","/home/**").permitAll()

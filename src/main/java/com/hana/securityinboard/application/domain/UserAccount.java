@@ -62,4 +62,22 @@ public class UserAccount {
     }
 
 
+    //로그인 횟수 계산
+    public void loginDayCounter() {
+        // 로그인한 일자로 비교
+        if(this.lastLoginDate.getDayOfWeek().getValue() != LocalDateTime.now().getDayOfWeek().getValue()) {
+            this.lastLoginDate = LocalDateTime.now();
+            loginDay++;
+        }
+        // 혹시나 정확히 일주일만에 로그인 한 경우
+        else if(this.lastLoginDate.getMonth().getValue() == LocalDateTime.now().getMonth().getValue()) {
+            this.lastLoginDate = LocalDateTime.now();
+            loginDay++;
+        }
+        // 1년에 한번 로그인 하는 경우는 없다고 가정
+    }
+
+    public void setLastLoginIp(String remoteAddress) {
+        this.lastLoginIp = remoteAddress;
+    }
 }

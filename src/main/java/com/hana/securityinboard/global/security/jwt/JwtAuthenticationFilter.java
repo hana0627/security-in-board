@@ -47,7 +47,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         log.info("[JwtAuthenticationFilter doFilterInternal] : {}" ,String.valueOf(request));
 
 
-        Enumeration<String> headerNames = request.getHeaderNames();
+//        Enumeration<String> headerNames = request.getHeaderNames();
 //        while(headerNames.hasMoreElements()) {
 //            log.info("=== 반복문 시작 ===");
 //            String headerName = headerNames.nextElement();
