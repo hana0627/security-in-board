@@ -1,5 +1,6 @@
 package com.hana.securityinboard.application.controller;
 
+import com.hana.securityinboard.application.dto.ArticleCommentDtoForQuery;
 import com.hana.securityinboard.application.dto.ArticleDto;
 import com.hana.securityinboard.application.service.ArticleService;
 import lombok.RequiredArgsConstructor;
@@ -12,8 +13,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -28,6 +27,9 @@ public class ArticleController {
     public String ArticleA(Model model, Pageable pageable) {
         Page<ArticleDto> articles = articleService.searchArticles("A", pageable);
         model.addAttribute("articles", articles);
+        ArticleDto check = articles.getContent().get(0);
+        System.out.println("check : " + check.toString());
+        System.out.println("사용자 이름 " + check.userAccount().getName());
         return "article/articleList";
     }
 
@@ -54,6 +56,7 @@ public class ArticleController {
 
     @GetMapping("/show/{id}")
     public String showArticle(@PathVariable Long id, Model model) {
+        log.info("[Controller showArticle] -called");
         ArticleDto article = articleService.showArticle(id);
         model.addAttribute("article",article);
         return "/article/article";
