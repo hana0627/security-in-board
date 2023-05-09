@@ -16,6 +16,7 @@ public record ArticleDto(
 ) {
 
 
+
     public static ArticleDto of(UserAccount userAccount, String title, String content, LocalDateTime createDate, String board) {
         return new ArticleDto(null ,userAccount, title, content, createDate, board);
     }
@@ -29,6 +30,10 @@ public record ArticleDto(
                 article.getCreateDate(),
                 article.getBoard()
         );
+    }
+
+    public static ArticleDto of(UserAccount userAccount, ArticleDto dto) {
+        return of(userAccount,dto.title, dto.content, LocalDateTime.now(), dto.board);
     }
 
     public Article toEntity() {

@@ -8,19 +8,27 @@
 <body>
 <div class="container">
     <div>
+        <form action="/article/create" method="get">
+            <input type="hidden" name="username" id="username" th:value="${article.userAccount().name}">
+            <input type="hidden" name="board" id="board" th:value="${article.board}">
+            <button type="submit">글쓰기</button>
+        </form>
+
         <table class="table table-striped" border="1">
+
             <thead>
             <tr>
-                <th>순번(미구현)</th>
-                <th>제목</th>
-                <th>작성자</th>
-                <th>작성일</th>
+                <td>순번(미구현)</td>
+                <td>제목</td>
+                <td>작성자</td>
+                <td>작성일</td>
             </tr>
             </thead>
             <tbody>
             <tr th:each="article : ${articles}">
-                <td><span th:text="${article.id}"></span></td>
-                <td><a th:href="@{/article/show/{id}(id=${article.id})}"><span th:text="${article.title}"></span></a></td>
+                <td>1</td>
+                <td><a th:href="@{/article/show/{id}(id=${article.id})}"><span th:text="${article.title}"></span></a>
+                </td>
                 <td th:text="${article.userAccount().name}"></td>
                 <td th:text="${article.createDate}"></td>
             </tr>
