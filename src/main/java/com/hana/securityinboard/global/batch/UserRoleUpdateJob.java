@@ -46,21 +46,21 @@ public class UserRoleUpdateJob {
                 .<UserAccount, UserAccount>chunk(5)
                 .reader(readeUsers)
                 .processor(userProcessor)
-                .writer(userWriter)
+//                .writer(userWriter)
                 .build();
     }
 
 
 
-    @StepScope
-    @Bean
-    public RepositoryItemWriter<UserAccount> userWriter() {
-        return new RepositoryItemWriterBuilder<UserAccount>()
-                .repository(userRepository)
-                .methodName("findAll")
-                .build();
-
-    }
+//    @StepScope
+//    @Bean
+//    public RepositoryItemWriter<UserAccount> userWriter() {
+//        return new RepositoryItemWriterBuilder<UserAccount>()
+//                .repository(userRepository)
+//                .methodName("findAll")
+//                .build();
+//
+//    }
 
     @StepScope
     @Bean
