@@ -41,4 +41,11 @@ public class UserController {
         log.info("[UserController home] - auth : {}" , auth);
         return "home";
     }
+
+    @GetMapping("/user/upgradeRole")
+    public String upgradeRole(Authentication auth) {
+        userService.upgradeRole(auth);
+        // TF 여부에 따라서 alert을 다르게 보여주는 자바스크립트 코드가 있으면 더 좋을듯 하다.
+        return "home";
+    }
 }

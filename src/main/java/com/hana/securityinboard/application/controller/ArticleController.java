@@ -32,6 +32,7 @@ public class ArticleController {
     public String ArticleB(Model model, Pageable pageable) {
         Page<ArticleDto> articles = articleService.searchArticles("B", pageable);
         model.addAttribute("articles", articles);
+        model.addAttribute("article", articles.getContent().get(0));
         return "article/articleList";
     }
 
@@ -39,6 +40,7 @@ public class ArticleController {
     public String ArticleC(Model model, Pageable pageable) {
         Page<ArticleDto> articles = articleService.searchArticles("C", pageable);
         model.addAttribute("articles", articles);
+        model.addAttribute("article", articles.getContent().get(0));
         return "article/articleList";
     }
 
@@ -46,6 +48,7 @@ public class ArticleController {
     public String ArticleD(Model model, Pageable pageable) {
         Page<ArticleDto> articles = articleService.searchArticles("D", pageable);
         model.addAttribute("articles", articles);
+        model.addAttribute("article", articles.getContent().get(0));
         return "article/articleList";
     }
 

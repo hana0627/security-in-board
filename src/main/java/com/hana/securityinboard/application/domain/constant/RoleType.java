@@ -1,5 +1,6 @@
 package com.hana.securityinboard.application.domain.constant;
 
+import com.hana.securityinboard.application.domain.UserAccount;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -26,6 +27,5 @@ public enum RoleType {
     private final String roleName;
     @Getter
     private final String description;
-
 
 }

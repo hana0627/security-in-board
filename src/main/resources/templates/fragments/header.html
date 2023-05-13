@@ -18,6 +18,12 @@
             로그인
         </a>
     </div>
+    <div sec:authorize="isAuthenticated()">
+        <a th:href="@{/user/upgradeRole}" role="button" id="up_role" class="me-2">
+            <!--      <span th:text="${principal.nickname}"></span>님 안녕하세요-->
+            등업신청하기
+        </a>
+    </div>
 </header>
 </body>
 </html>
