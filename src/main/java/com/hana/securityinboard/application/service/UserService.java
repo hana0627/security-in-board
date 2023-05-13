@@ -13,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Slf4j
@@ -28,6 +29,9 @@ public class UserService {
         return userRepository.findByUsername(username);
     }
 
+    public List<UserAccount> searchUsers() {
+        return userRepository.findAll();
+    }
 
     @Transactional
     public void saveUser(UserAccountDto userAccountDto) {

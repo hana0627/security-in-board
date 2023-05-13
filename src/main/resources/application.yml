@@ -60,7 +60,7 @@ spring:
   batch:
     job:
       names: ${job.name:NONE}
-      enabled: false # 프로젝트가 실행될 떄 파라미터가 존재하더라도 위에 job 실행X
+      enabled: false
     jdbc:
       initialize-schema: always
 jwt:
