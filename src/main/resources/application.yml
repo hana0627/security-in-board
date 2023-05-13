@@ -57,8 +57,15 @@ spring:
             user-info-uri: https://kapi.kakao.com/v2/user/me
             user-name-attribute: id
 
+  batch:
+    job:
+      names: ${job.name:NONE}
+      enabled: false # 프로젝트가 실행될 떄 파라미터가 존재하더라도 위에 job 실행X
+    jdbc:
+      initialize-schema: always
 jwt:
   header: ${JWT_HEADER}
   secret: ${JWT_SECRET}
   token-validity-in-seconds: 86400
   token_prefix: Bearer
+
