@@ -3,24 +3,16 @@ package com.hana.securityinboard.global.security;
 import com.hana.securityinboard.application.domain.constant.RoleType;
 import com.hana.securityinboard.application.service.UserService;
 import com.hana.securityinboard.global.security.oauth.CustomOauth2UserService;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-
-import java.io.IOException;
 
 @RequiredArgsConstructor
 @EnableWebSecurity
@@ -73,7 +65,7 @@ public class SecurityConfig {
                         .authorizeHttpRequests(auth -> auth
                                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                                 .requestMatchers("/login/**","/home/**").permitAll()
-//                                .requestMatchers("/article/a/**").hasAnyRole(roleType1)
+                                .requestMatchers("/article/a/**").hasRole(RoleType.VIP.getRoleName())
 //                                .requestMatchers("/article/b/**").hasAnyRole(roleType2)
 //                                .requestMatchers("/article/c/**").hasAnyRole(roleType3)
 //                                .requestMatchers("/article/d/**").hasAnyRole(roleType4)
@@ -109,4 +101,5 @@ public class SecurityConfig {
     public AuthenticationSuccessHandler customAuthenticationSuccessHandler() {
         return new CustomAuthenticationSuccessHandler(userDetailsService);
     }
+
 }

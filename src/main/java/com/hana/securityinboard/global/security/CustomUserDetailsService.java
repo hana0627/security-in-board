@@ -3,12 +3,14 @@ package com.hana.securityinboard.global.security;
 import com.hana.securityinboard.application.domain.UserAccount;
 import com.hana.securityinboard.application.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -30,6 +32,13 @@ public class CustomUserDetailsService implements UserDetailsService {
                 }
         ).orElseThrow(() ->new UsernameNotFoundException("회원이 존재하지 않습니다!"));
 
+//        UserAccount user = userService.searchUser(username)
+//                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
+//        new User(
+//                user.getUsername(),
+//                user.getPassword(),
+//                user.getRoleType());
+//        return new CustomUserDetails(user);
     }
     
     @Override

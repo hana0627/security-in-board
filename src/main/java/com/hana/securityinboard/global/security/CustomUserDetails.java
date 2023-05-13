@@ -2,12 +2,13 @@ package com.hana.securityinboard.global.security;
 
 import com.hana.securityinboard.application.domain.UserAccount;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
-import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 
 public class CustomUserDetails implements UserDetails, OAuth2User {
@@ -19,11 +20,13 @@ public class CustomUserDetails implements UserDetails, OAuth2User {
     public CustomUserDetails(UserAccount userAccount) {
         this.userAccount = userAccount;
     }
+
     //Oauth 로그인
     public CustomUserDetails(UserAccount userAccount, Map<String, Object> attributes) {
         this.userAccount = userAccount;
         this.attributes = attributes;
     }
+
     public UserAccount getUserAccount() {
         return userAccount;
     }
@@ -39,18 +42,22 @@ public class CustomUserDetails implements UserDetails, OAuth2User {
     }
 
 
-
     //TODO : 제대로 들어가는지 확인
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        Collection<GrantedAuthority> collect = new ArrayList<>();
-        collect.add(new GrantedAuthority() {
-            @Override
-            public String getAuthority() {
-                return userAccount.getRoleType().getRoleName();
-            }
-        });
-        return collect;
+
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority(userAccount.getRoleType().getRoleName()));
+        return authorities;
+//        System.out.println("현재 여기를 못들어옴");
+//        Collection<GrantedAuthority> collect = new ArrayList<>();
+//        collect.add(new GrantedAuthority() {
+//            @Override
+//            public String getAuthority() {
+//                return userAccount.getRoleType().getRoleName();
+//            }
+//        });
+//        return collect;
     }
 
 
@@ -79,6 +86,7 @@ public class CustomUserDetails implements UserDetails, OAuth2User {
     public String getName() {
         return null;
     }
+
     @Override
     public Map<String, Object> getAttributes() {
         return attributes;
