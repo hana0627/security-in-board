@@ -6,10 +6,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class CustomUserDetails implements UserDetails, OAuth2User {
 
@@ -41,23 +38,9 @@ public class CustomUserDetails implements UserDetails, OAuth2User {
         return userAccount.getPassword();
     }
 
-
-    //TODO : 제대로 들어가는지 확인
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-
-        List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority(userAccount.getRoleType().getRoleName()));
-        return authorities;
-//        System.out.println("현재 여기를 못들어옴");
-//        Collection<GrantedAuthority> collect = new ArrayList<>();
-//        collect.add(new GrantedAuthority() {
-//            @Override
-//            public String getAuthority() {
-//                return userAccount.getRoleType().getRoleName();
-//            }
-//        });
-//        return collect;
+        return Collections.singletonList(new CustomGrantedAuthority(userAccount.getRoleType().getRoleName()));
     }
 
 

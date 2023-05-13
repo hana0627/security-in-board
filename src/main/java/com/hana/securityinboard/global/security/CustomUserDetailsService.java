@@ -20,7 +20,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     private List<CustomUserDetails> userDetailsList;
 
     /**
-     * 커스텀. 이곳에서 마지막 로그인 일자와 ip를 기록
+     * 이곳에서 마지막 로그인 일자와 ip를 기록
      */
     @Transactional
     public CustomUserDetails customLoadUserByUsername(String username, String remoteAddress) throws RuntimeException {
@@ -31,14 +31,6 @@ public class CustomUserDetailsService implements UserDetailsService {
                     return new CustomUserDetails(u);
                 }
         ).orElseThrow(() ->new UsernameNotFoundException("회원이 존재하지 않습니다!"));
-
-//        UserAccount user = userService.searchUser(username)
-//                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
-//        new User(
-//                user.getUsername(),
-//                user.getPassword(),
-//                user.getRoleType());
-//        return new CustomUserDetails(user);
     }
     
     @Override

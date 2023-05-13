@@ -36,7 +36,6 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-
         log.info("[CustomAuthenticationProvider] authentication : {}", authentication);
         String username = authentication.getName();
         String password = authentication.getCredentials().toString();
@@ -45,12 +44,10 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         CustomUserDetails u = userDetailsService.customLoadUserByUsername(username, remoteAddress);
         if(passwordEncoder.matches(password,u.getPassword())) {
             List<GrantedAuthority> authorities = new ArrayList<>();
-            authorities.add(new SimpleGrantedAuthority(u.getUserAccount().getRoleType().getRoleName()));
+            authorities.add(new CustomGrantedAuthority(u.getUserAccount().getRoleType().getRoleName()));
             return new UsernamePasswordAuthenticationToken(username, password, authorities);
         }
         throw new BadCredentialsException("Something was wrong");
-
-
     }
 
     @Override
@@ -59,19 +56,3 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     }
 
 }
-
-//        일단 권한정보가 제대로 들어가게끔 수정은 하였으나,
-//        문제를 해결한것이지, 어떻게 해결하였는지 정확하게 이해하지 않고있다.
-//        일단 아래 주석으로 남겨둔 후 비교하도록 하자
-//        log.info("[CustomAuthenticationProvider] authentication : {}", authentication);
-//        String username = authentication.getName();
-//        String password = authentication.getCredentials().toString();
-//        WebAuthenticationDetails details = (WebAuthenticationDetails) authentication.getDetails();
-//        String remoteAddress = details.getRemoteAddress();
-//        CustomUserDetails u = userDetailsService.customLoadUserByUsername(username, remoteAddress);
-//        if(passwordEncoder.matches(password,u.getPassword())) {
-//            return new UsernamePasswordAuthenticationToken(username, password, authentication.getAuthorities());
-//        }
-//        throw new BadCredentialsException("Something was wrong");
-
-
