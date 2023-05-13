@@ -1,6 +1,6 @@
 package com.hana.securityinboard.global.security;
 
-import com.hana.securityinboard.application.domain.constant.RoleType;
+import com.hana.securityinboard.application.domain.constant.RoleTypes;
 import com.hana.securityinboard.application.service.UserService;
 import com.hana.securityinboard.global.security.oauth.CustomOauth2UserService;
 import lombok.RequiredArgsConstructor;
@@ -24,31 +24,32 @@ public class SecurityConfig {
     private final UserService userService;
     private final CustomAuthenticationProvider authenticationProvider;
 
-    String[] roleType1 = {
-            RoleType.SILVER.getRoleName(),
-            RoleType.ORANGE.getRoleName(),
-            RoleType.RED.getRoleName(),
-            RoleType.VIP.getRoleName(),
-            RoleType.MANAGER.getRoleName(),
-            RoleType.ADMIN.getRoleName()};
-
-    String[] roleType2 = {
-            RoleType.ORANGE.getRoleName(),
-            RoleType.RED.getRoleName(),
-            RoleType.VIP.getRoleName(),
-            RoleType.MANAGER.getRoleName(),
-            RoleType.ADMIN.getRoleName()};
-
-    String[] roleType3 = {
-            RoleType.RED.getRoleName(),
-            RoleType.VIP.getRoleName(),
-            RoleType.MANAGER.getRoleName(),
-            RoleType.ADMIN.getRoleName()};
-
-    String[] roleType4 = {
-            RoleType.VIP.getRoleName(),
-            RoleType.MANAGER.getRoleName(),
-            RoleType.ADMIN.getRoleName()};
+//    String[] roleType1 = {
+//            RoleType.SILVER.getRoleName(),
+//            RoleType.ORANGE.getRoleName(),
+//            RoleType.RED.getRoleName(),
+//            RoleType.VIP.getRoleName(),
+//            RoleType.MANAGER.getRoleName(),
+//            RoleType.ADMIN.getRoleName()
+//    };
+//    String[] roleType2 = {
+//            RoleType.ORANGE.getRoleName(),
+//            RoleType.RED.getRoleName(),
+//            RoleType.VIP.getRoleName(),
+//            RoleType.MANAGER.getRoleName(),
+//            RoleType.ADMIN.getRoleName()
+//    };
+//    String[] roleType3 = {
+//            RoleType.RED.getRoleName(),
+//            RoleType.VIP.getRoleName(),
+//            RoleType.MANAGER.getRoleName(),
+//            RoleType.ADMIN.getRoleName()
+//    };
+//    String[] roleType4 = {
+//            RoleType.VIP.getRoleName(),
+//            RoleType.MANAGER.getRoleName(),
+//            RoleType.ADMIN.getRoleName()
+//    };
 
 
     @Bean
@@ -65,10 +66,10 @@ public class SecurityConfig {
                         .authorizeHttpRequests(auth -> auth
                                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                                 .requestMatchers("/login/**","/home/**").permitAll()
-                                .requestMatchers("/article/a/**").hasRole(RoleType.VIP.getRoleName())
-//                                .requestMatchers("/article/b/**").hasAnyRole(roleType2)
-//                                .requestMatchers("/article/c/**").hasAnyRole(roleType3)
-//                                .requestMatchers("/article/d/**").hasAnyRole(roleType4)
+                                .requestMatchers("/article/a/**").hasAnyRole(RoleTypes.roleType1)
+                                .requestMatchers("/article/b/**").hasAnyRole(RoleTypes.roleType2)
+                                .requestMatchers("/article/c/**").hasAnyRole(RoleTypes.roleType3)
+                                .requestMatchers("/article/d/**").hasAnyRole(RoleTypes.roleType4)
                                 .anyRequest().authenticated()
                         )
                         .formLogin(form -> {
