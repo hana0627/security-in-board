@@ -1,6 +1,7 @@
 package com.hana.securityinboard.application.service;
 
 import com.hana.securityinboard.application.domain.UserAccount;
+import com.hana.securityinboard.application.domain.constant.RoleType;
 import com.hana.securityinboard.application.dto.UserAccountDto;
 import com.hana.securityinboard.application.repository.UserRepository;
 import com.hana.securityinboard.global.security.CustomPasswordEncoder;
@@ -58,5 +59,15 @@ public class UserService {
             user.upgradeRole(user);
         }
         return user.canUpgrade(user);
+    }
+
+    public boolean isAdmin(Authentication auth) {
+        UserAccount userAccount = userRepository.findByUsername(auth.getName()).orElseThrow(() -> new EntityNotFoundException("회원을 찾을 수 없습니다!"));
+        return userAccount.getRoleType().equals(RoleType.ADMIN);
+    }
+
+    public List<UserAccountDto> searchAllUser() {
+        // 페이징은 고려하지 않았음
+        return userRepository.findAll().stream().map(UserAccountDto::form).toList();
     }
 }

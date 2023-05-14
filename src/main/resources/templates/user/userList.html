@@ -1,0 +1,31 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>사용자관리</title>
+  <div th:insert="~{fragments/header :: header}"></div>
+</head>
+<body>
+<div class="container">
+  <div>
+    <table class="table table-striped" border="1">
+
+      <thead>
+      <tr>
+        <td>이름</td>
+        <td>등급</td>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="user : ${users}">
+        <td>1</td>
+        <td><a th:href="@{/user/show/{username}(id=${user.username})}"><span th:text="${user.name}"></span></a>
+        </td>
+        <td th:text="${user.roleType().name()}"></td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div> <!-- /container -->
+</body>
+</html>

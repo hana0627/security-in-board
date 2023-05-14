@@ -32,10 +32,8 @@ public class ArticleService {
 
         PageRequest request = pageRequest(pageable, 50);
 
-        //페이지네이션은 천천히 처리
         return articleQueryRepository.findAllWithCondition(board, request)
                 .map(ArticleDto::form);
-//        return null;
     }
 
     @Transactional
