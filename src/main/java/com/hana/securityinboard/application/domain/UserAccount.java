@@ -109,5 +109,7 @@ public class UserAccount {
     }
 
 
-
+    public void changeRoleManager(UserAccount user) {
+        this.roleType = RoleType.MANAGER;
+    }
 }

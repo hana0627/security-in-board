@@ -65,9 +65,25 @@ public class UserService {
         UserAccount userAccount = userRepository.findByUsername(auth.getName()).orElseThrow(() -> new EntityNotFoundException("회원을 찾을 수 없습니다!"));
         return userAccount.getRoleType().equals(RoleType.ADMIN);
     }
+    public boolean isManager(Authentication auth) {
+        UserAccount userAccount = userRepository.findByUsername(auth.getName()).orElseThrow(() -> new EntityNotFoundException("회원을 찾을 수 없습니다!"));
+        return userAccount.getRoleType().equals(RoleType.MANAGER);
+    }
 
     public List<UserAccountDto> searchAllUser() {
         // 페이징은 고려하지 않았음
         return userRepository.findAll().stream().map(UserAccountDto::form).toList();
     }
+
+    public UserAccountDto findUser(String username) {
+        return userRepository.findByUsername(username).map(UserAccountDto::form).orElseThrow(() -> new EntityNotFoundException());
+    }
+
+    @Transactional
+    public void createManger(String username) {
+        UserAccount user = userRepository.findByUsername(username).orElseThrow(() -> new EntityNotFoundException());
+        user.changeRoleManager(user);
+    }
+
+
 }

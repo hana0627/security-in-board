@@ -1,0 +1,36 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>유저정보</title>
+    <div th:insert="~{fragments/header :: header}"></div>
+</head>
+<body>
+<div class="container">
+    <div>
+        <table class="table table-striped">
+            <tr>
+                <th>이름</th>
+                <td th:text="${user.name}"></td>
+            </tr>
+            <tr>
+                <th>권한</th>
+                <td th:text="${user.roleType().roleName}"></td>
+            </tr>
+            <tr>
+                <th>최종접속일</th>
+            </tr>
+            <td th:text="${user.lastLoginDate}"></td>
+            <tr>
+                <th>글 수</th>
+            </tr>
+            <td th:text="${user.articleCount}"></td>
+        </table>
+        <form th:action="@{/user/registManager/{username}(username=${user.username})}" th:method="post">
+        <input type="hidden" id="username" name="username" th:value="${user.username}">
+        <button type="submit" >매니저로 등록하기</button>
+        </form>
+    </div>
+</div> <!-- /container -->
+</body>
+</html>

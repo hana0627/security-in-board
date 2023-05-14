@@ -10,6 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -58,7 +59,10 @@ public class UserController {
     @GetMapping("/user/manager")
     public String management(Authentication auth) {
         if(userService.isAdmin(auth)) {
-            return "/user/management";
+            return "/user/managementAdmin";
+        }
+        if(userService.isManager(auth)){
+            return "/user/managementManager";
         }
         return "home";
     }
@@ -66,11 +70,27 @@ public class UserController {
     @GetMapping("/user/searchAllUser")
     public String searchAllUser(Model model) {
         List<UserAccountDto> users = userService.searchAllUser();
-        System.out.println("확인");
-        users.stream().forEach(System.out::println);
         model.addAttribute("users",users);
         return "/user/userList";
     }
+
+    @GetMapping("/user/detail/{username}")
+    public String userDetail(@PathVariable String username, Model model) {
+        log.info("[UserController userDetail] - called");
+        log.info("username : {}",username);
+        UserAccountDto user = userService.findUser(username);
+        model.addAttribute("user",user);
+
+        return "/user/userDetail";
+    }
+
+    @PostMapping("/user/registManager/{username}")
+    public String addManager(@PathVariable String username, Model model) {
+        userService.createManger(username);
+        return "redirect:/user/userList/";
+    }
+
+
 
 
 }

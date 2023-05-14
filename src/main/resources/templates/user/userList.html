@@ -18,8 +18,8 @@
       </thead>
       <tbody>
       <tr th:each="user : ${users}">
-        <td>1</td>
-        <td><a th:href="@{/user/show/{username}(id=${user.username})}"><span th:text="${user.name}"></span></a>
+        <span th:text="${user.username()}"></span>
+        <td><a th:href="@{/user/detail/{username}(username=${user.username})}"><span th:text="${user.name}"></span></a>
         </td>
         <td th:text="${user.roleType().name()}"></td>
       </tr>

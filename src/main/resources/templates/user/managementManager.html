@@ -1,0 +1,19 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>A게시판</title>
+    <div th:insert="~{fragments/header :: header}"></div>
+</head>
+<body>
+<div class="container">
+    <div>
+        <table class="table table-striped">
+            <tr>
+                <form th:action="@{/user/searchAllUser}"><button type="submit">전체 회원 목록 보기</button></form>
+            </tr>
+        </table>
+    </div>
+</div> <!-- /container -->
+</body>
+</html>
