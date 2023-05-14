@@ -1,5 +1,6 @@
 package com.hana.securityinboard.application.service;
 
+import com.hana.securityinboard.application.domain.Article;
 import com.hana.securityinboard.application.domain.UserAccount;
 import com.hana.securityinboard.application.domain.constant.RoleType;
 import com.hana.securityinboard.application.dto.ArticleCommentDto;
@@ -60,17 +61,27 @@ public class ArticleService {
     // 해당 게시판에 글쓰기가 가능한지 확인하는 코드
     public boolean canCreateArticle(String username, String board) {
         UserAccount userAccount = userRepository.findByUsername(username).orElseThrow(() -> new EntityNotFoundException());
-//        return RoleType.canCreateArticle(userAccount.getRoleType(), board);
-        return  RoleType.canCreateArticle(userAccount.getRoleType().getRoleName(), board);
+        return RoleType.canCreateArticle(userAccount.getRoleType().getRoleName(), board);
     }
 
+    @Transactional
+    public String deleteArticle(Long articleId, Authentication auth) {
+        Article article = articleRepository.findById(articleId).orElseThrow(() -> new EntityNotFoundException());
+        UserAccount authUser = userRepository.findByUsername(auth.getName()).orElseThrow(() -> new EntityNotFoundException());;
+        UserAccount writeUser = article.getUserAccount();
 
+        boolean isHimSelf = authUser.equals(writeUser);
+        boolean canDelete = RoleType.canDeleteArticle(authUser.getRoleType().getRoleName(), article.getBoard());
 
+        if (isHimSelf || canDelete) {
+            articleRepository.deleteById(articleId);
+        }
+        return article.getBoard();
+    }
 
     private static PageRequest pageRequest(Pageable pageable, int pageSize) {
         int current_page = pageable.getPageNumber() < 1 ? 0 : pageable.getPageNumber() - 1;
         return PageRequest.of(current_page, pageSize);
     }
-
 
 }

@@ -41,4 +41,13 @@ public enum RoleType {
             default -> false;
         };
     }
+
+    public static boolean canDeleteArticle(String role, String board) {
+        System.out.println("???" + role);
+        return switch (board) {
+            case "A" -> Arrays.stream(RoleTypes.roleType3).anyMatch(r -> role.equals(r));
+            case "B" -> Arrays.stream(RoleTypes.roleType4).anyMatch(r -> role.equals(r));
+            default -> false;
+        };
+    }
 }

@@ -74,4 +74,10 @@ public class ArticleController {
         ArticleDto article = articleService.createArticle(articleDto, auth);
         return "redirect:/article/" + article.board().toLowerCase();
     }
+
+    @PostMapping("/delete")
+    public String deleteArticle(@RequestParam Long articleId, Authentication auth) {
+        String board = articleService.deleteArticle(articleId, auth);
+        return "redirect:/article/" + board.toLowerCase();
+    }
 }

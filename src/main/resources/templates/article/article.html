@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>A게시판</title>
@@ -23,6 +23,11 @@
             <td th:text="${article.content}"></td>
         </table>
     </div>
+
+    <form th:action="@{/article/delete}" th:method="post">
+        <input type="hidden" name="articleId" id ="articleId" th:value="${article.id()}">
+    <button>삭제</button>
+    </form>
 </div> <!-- /container -->
 </body>
 </html>
