@@ -10,12 +10,6 @@ import java.util.Iterator;
 
 @RequiredArgsConstructor
 public enum RoleType {
-//    SILVER("ROLE_SILVER", "실버등급"),
-//    ORANGE("ROLE_ORANGE", "오렌지등급"),
-//    RED("ROLE_RED", "레드등급"),
-//    VIP("ROLE_VIP", "VIP"),
-//    MANAGER("ROLE_MANAGER", "운영자"),
-//    ADMIN("ROLE_ADMIN", "관리자");
     SILVER("SILVER", "실버등급"),
     ORANGE("ORANGE", "오렌지등급"),
     RED("RED", "레드등급"),
@@ -28,4 +22,12 @@ public enum RoleType {
     @Getter
     private final String description;
 
+    public static RoleType upgradeRole(RoleType roleType) {
+        return switch (roleType) {
+            case SILVER -> ORANGE;
+            case ORANGE -> RED;
+            case RED -> VIP;
+            default -> roleType;
+        };
+    }
 }

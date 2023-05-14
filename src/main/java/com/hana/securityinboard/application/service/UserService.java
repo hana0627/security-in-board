@@ -1,7 +1,6 @@
 package com.hana.securityinboard.application.service;
 
 import com.hana.securityinboard.application.domain.UserAccount;
-import com.hana.securityinboard.application.domain.constant.RoleType;
 import com.hana.securityinboard.application.dto.UserAccountDto;
 import com.hana.securityinboard.application.repository.UserRepository;
 import com.hana.securityinboard.global.security.CustomPasswordEncoder;
@@ -9,7 +8,6 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -53,7 +51,12 @@ public class UserService {
 
     @Transactional
     public boolean upgradeRole(Authentication auth) {
-        return userRepository.findByUsername(auth.getName()).map(u -> u.UpgradeValidation(u))
+        UserAccount user = userRepository.findByUsername(auth.getName())
                 .orElseThrow(() -> new EntityNotFoundException("회원을 찾을 수 없습니다!"));
+
+        if (user.canUpgrade(user)) {
+            user.upgradeRole(user);
+        }
+        return user.canUpgrade(user);
     }
 }

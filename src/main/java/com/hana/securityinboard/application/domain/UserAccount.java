@@ -83,32 +83,23 @@ public class UserAccount {
         this.lastLoginIp = remoteAddress;
     }
 
-    public boolean UpgradeValidation(UserAccount userAccount) {
-        RoleType role = userAccount.getRoleType();
-        /*
-        SILVER // 기본권한
-        ORANGE // 자동등업
-        RED    // 3일 이상 로그인
-        VIP    // 10일 이상 로그인, 글 5개
-         */
-        if(RoleType.SILVER.equals(role)) {
-            this.roleType = RoleType.ORANGE;
-            return true;
-        }
-        if(RoleType.ORANGE.equals(role)) {
-            if(loginDay>=3) {
-                this.roleType = RoleType.RED;
-                return true;
-            }
-            return false;
-        }
-        if(RoleType.RED.equals(role)) {
-            if(loginDay>=10 && articleCount >= 3) {
-                this.roleType = RoleType.VIP;
-                return true;
-            }
-            return false;
-        }
-        return false;
+    public void upgradeRole(UserAccount userAccount) {
+        this.roleType = RoleType.upgradeRole(userAccount.getRoleType());
+    }
+
+
+    /*
+    SILVER // 기본권한
+    ORANGE // 자동등업
+    RED    // 3일 이상 로그인
+    VIP    // 10일 이상 로그인, 글 3개
+     */
+    public boolean canUpgrade(UserAccount userAccount) {
+        return switch (userAccount.getRoleType()) {
+            case SILVER -> true;
+            case ORANGE -> userAccount.loginDay >= 3;
+            case RED -> userAccount.loginDay >= 10 && userAccount.getArticleCount() >= 3;
+            default ->  false;
+        };
     }
 }

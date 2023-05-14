@@ -40,7 +40,8 @@ public class CustomUserDetails implements UserDetails, OAuth2User {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singletonList(new CustomGrantedAuthority(userAccount.getRoleType().getRoleName()));
+//        return Collections.singletonList(new CustomGrantedAuthority(userAccount.getRoleType().getRoleName()));
+        return Collections.emptyList();
     }
 
 
