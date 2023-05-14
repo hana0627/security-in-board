@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.session.SessionRegistry;
@@ -70,6 +71,14 @@ public class SecurityConfig {
                                 .requestMatchers("/article/b/**").hasAnyRole(RoleTypes.roleType2)
                                 .requestMatchers("/article/c/**").hasAnyRole(RoleTypes.roleType3)
                                 .requestMatchers("/article/d/**").hasAnyRole(RoleTypes.roleType4)
+//                                .requestMatchers(HttpMethod.GET,"/article/a/**").hasAnyRole(RoleTypes.roleType1)
+//                                .requestMatchers(HttpMethod.POST,"/article/a/**").hasAnyRole(RoleTypes.roleType2)
+//                                .requestMatchers(HttpMethod.GET,"/article/b/**").hasAnyRole(RoleTypes.roleType2)
+//                                .requestMatchers(HttpMethod.POST,"/article/b/**").hasAnyRole(RoleTypes.roleType3)
+//                                .requestMatchers(HttpMethod.GET,"/article/c/**").hasAnyRole(RoleTypes.roleType3)
+//                                .requestMatchers(HttpMethod.POST,"/article/c/**").hasAnyRole(RoleTypes.roleType4)
+//                                .requestMatchers(HttpMethod.GET,"/article/d/**").hasAnyRole(RoleTypes.roleType4)
+//                                .requestMatchers(HttpMethod.POST,"/article/d/**").hasAnyRole(RoleTypes.roleType5)
                                 .anyRequest().authenticated()
                         )
                         .formLogin(form -> {

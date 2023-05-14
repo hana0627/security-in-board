@@ -83,17 +83,17 @@ public class UserAccount {
         this.lastLoginIp = remoteAddress;
     }
 
-    public void upgradeRole(UserAccount userAccount) {
-        this.roleType = RoleType.upgradeRole(userAccount.getRoleType());
+    public void articleCountPlus() {
+        this.articleCount++;
     }
 
 
     /*
-    SILVER // 기본권한
-    ORANGE // 자동등업
-    RED    // 3일 이상 로그인
-    VIP    // 10일 이상 로그인, 글 3개
-     */
+     SILVER // 기본권한
+     ORANGE // 자동등업
+     RED    // 3일 이상 로그인
+     VIP    // 10일 이상 로그인, 글 3개
+      */
     public boolean canUpgrade(UserAccount userAccount) {
         return switch (userAccount.getRoleType()) {
             case SILVER -> true;
@@ -102,4 +102,12 @@ public class UserAccount {
             default ->  false;
         };
     }
+
+
+    public void upgradeRole(UserAccount userAccount) {
+        this.roleType = RoleType.upgradeRole(userAccount.getRoleType());
+    }
+
+
+
 }

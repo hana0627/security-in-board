@@ -61,9 +61,12 @@ public class ArticleController {
 
     @GetMapping("/create")
     public String createArticleForm(@RequestParam String username, @RequestParam String board, Model model) {
-        model.addAttribute("username", username);
-        model.addAttribute("board", board);
-        return "/article/createForm";
+        if(articleService.canCreateArticle(username, board)) {
+            model.addAttribute("username", username);
+            model.addAttribute("board", board);
+            return "/article/createForm";
+        }
+        return "home";
     }
 
     @PostMapping("/create")

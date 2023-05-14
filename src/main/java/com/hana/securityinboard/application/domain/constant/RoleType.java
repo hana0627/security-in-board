@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -28,6 +29,16 @@ public enum RoleType {
             case ORANGE -> RED;
             case RED -> VIP;
             default -> roleType;
+        };
+    }
+
+    public static boolean canCreateArticle(String role, String board) {
+        return switch (board) {
+            case "A" -> Arrays.stream(RoleTypes.roleType2).anyMatch(r -> role.equals(r));
+            case "B" -> Arrays.stream(RoleTypes.roleType3).anyMatch(r -> role.equals(r));
+            case "C" -> Arrays.stream(RoleTypes.roleType4).anyMatch(r -> role.equals(r));
+            case "D" -> Arrays.stream(RoleTypes.roleType5).anyMatch(r -> role.equals(r));
+            default -> false;
         };
     }
 }

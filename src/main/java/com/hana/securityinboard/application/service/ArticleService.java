@@ -1,6 +1,7 @@
 package com.hana.securityinboard.application.service;
 
 import com.hana.securityinboard.application.domain.UserAccount;
+import com.hana.securityinboard.application.domain.constant.RoleType;
 import com.hana.securityinboard.application.dto.ArticleCommentDto;
 import com.hana.securityinboard.application.dto.ArticleCommentDtoForQuery;
 import com.hana.securityinboard.application.dto.ArticleDto;
@@ -42,7 +43,11 @@ public class ArticleService {
         UserAccount userAccount = userRepository.findByUsername(auth.getName()).orElseThrow(EntityNotFoundException::new);
         ArticleDto.of(userAccount,dto);
 
-        return ArticleDto.form(articleRepository.save(ArticleDto.of(userAccount,dto).toEntity()));
+        // 작성자의 게시글 카운트 증가.
+        // 위의 메소드 안에 넣는 방법도 고민해보았지만, 분리하는것이 더 나아보인다.
+        userAccount.articleCountPlus();
+        
+        return ArticleDto.form(articleRepository.save(ArticleDto.of(userAccount, dto).toEntity()));
     }
 
     public ArticleDto showArticle(Long id) {
@@ -52,8 +57,20 @@ public class ArticleService {
                 .orElseThrow(() -> new EntityNotFoundException("엔티티를 찾을 수 없습니다!"));
     }
 
+    // 해당 게시판에 글쓰기가 가능한지 확인하는 코드
+    public boolean canCreateArticle(String username, String board) {
+        UserAccount userAccount = userRepository.findByUsername(username).orElseThrow(() -> new EntityNotFoundException());
+//        return RoleType.canCreateArticle(userAccount.getRoleType(), board);
+        return  RoleType.canCreateArticle(userAccount.getRoleType().getRoleName(), board);
+    }
+
+
+
+
     private static PageRequest pageRequest(Pageable pageable, int pageSize) {
         int current_page = pageable.getPageNumber() < 1 ? 0 : pageable.getPageNumber() - 1;
         return PageRequest.of(current_page, pageSize);
     }
+
+
 }

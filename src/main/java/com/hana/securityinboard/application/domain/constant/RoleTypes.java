@@ -28,4 +28,8 @@ public class RoleTypes {
             RoleType.MANAGER.getRoleName(),
             RoleType.ADMIN.getRoleName()
     };
+    public static String[] roleType5 = {
+            RoleType.MANAGER.getRoleName(),
+            RoleType.ADMIN.getRoleName()
+    };
 }
