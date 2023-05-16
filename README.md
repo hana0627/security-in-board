@@ -19,7 +19,7 @@ Spring Boot
 * Spring Data JPA
 * QueryDsl 5.0.0
 * Thymeleaf
-* Spring Security
+* Spring Security 6.0.7
 * Spring batch
 * Oauth2
 * Jwt
