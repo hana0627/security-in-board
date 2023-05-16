@@ -1,7 +1,9 @@
 package com.hana.securityinboard.application.controller;
 
+import com.hana.securityinboard.application.domain.UserAccount;
 import com.hana.securityinboard.application.dto.ArticleDto;
 import com.hana.securityinboard.application.service.ArticleService;
+import com.hana.securityinboard.global.aop.annotation.UserIsBlocked;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -10,6 +12,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -24,31 +28,38 @@ public class ArticleController {
     public String ArticleA(Model model, Pageable pageable) {
         Page<ArticleDto> articles = articleService.searchArticles("A", pageable);
         model.addAttribute("articles", articles);
-        model.addAttribute("article", articles.getContent().get(0));
+            model.addAttribute("article", articles.getContent().get(0));
         return "article/articleList";
     }
 
+    @UserIsBlocked
     @GetMapping("/b")
     public String ArticleB(Model model, Pageable pageable) {
-        Page<ArticleDto> articles = articleService.searchArticles("B", pageable);
+        Page<ArticleDto> articles = articleService.searchArticlesWithBlockCheck("B", pageable);
         model.addAttribute("articles", articles);
-        model.addAttribute("article", articles.getContent().get(0));
+            model.addAttribute("article", articles.getContent().get(0));
+
+        System.out.println("size : " + articles.getContent().size());
         return "article/articleList";
     }
-
+    @UserIsBlocked
     @GetMapping("/c")
     public String ArticleC(Model model, Pageable pageable) {
-        Page<ArticleDto> articles = articleService.searchArticles("C", pageable);
+        Page<ArticleDto> articles = articleService.searchArticlesWithBlockCheck("C", pageable);
         model.addAttribute("articles", articles);
-        model.addAttribute("article", articles.getContent().get(0));
+            model.addAttribute("article", articles.getContent().get(0));
+
+        System.out.println("size : " + articles.getContent().size());
         return "article/articleList";
     }
-
+    @UserIsBlocked
     @GetMapping("/d")
     public String ArticleD(Model model, Pageable pageable) {
-        Page<ArticleDto> articles = articleService.searchArticles("D", pageable);
+        Page<ArticleDto> articles = articleService.searchArticlesWithBlockCheck("D", pageable);
+
         model.addAttribute("articles", articles);
-        model.addAttribute("article", articles.getContent().get(0));
+
+        System.out.println("size : " + articles.getContent().size());
         return "article/articleList";
     }
 

@@ -3,12 +3,11 @@ package com.hana.securityinboard.application.service;
 import com.hana.securityinboard.application.domain.Article;
 import com.hana.securityinboard.application.domain.UserAccount;
 import com.hana.securityinboard.application.domain.constant.RoleType;
-import com.hana.securityinboard.application.dto.ArticleCommentDto;
-import com.hana.securityinboard.application.dto.ArticleCommentDtoForQuery;
 import com.hana.securityinboard.application.dto.ArticleDto;
 import com.hana.securityinboard.application.repository.ArticleQueryRepository;
 import com.hana.securityinboard.application.repository.ArticleRepository;
 import com.hana.securityinboard.application.repository.UserRepository;
+import com.hana.securityinboard.global.aop.annotation.UserIsBlocked;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,14 +28,19 @@ public class ArticleService {
     private final UserRepository userRepository;
 
     public Page<ArticleDto> searchArticles(String board, Pageable pageable) {
-
         PageRequest request = pageRequest(pageable, 50);
-
         return articleQueryRepository.findAllWithCondition(board, request)
                 .map(ArticleDto::form);
     }
 
+    @UserIsBlocked
+    public Page<ArticleDto> searchArticlesWithBlockCheck(String board, Pageable pageable) {
+        PageRequest request = pageRequest(pageable, 50);
+        return articleQueryRepository.findAllWithCondition(board, request)
+                .map(ArticleDto::form);
+    }
     @Transactional
+
     public ArticleDto createArticle(ArticleDto dto, Authentication auth) {
 
         UserAccount userAccount = userRepository.findByUsername(auth.getName()).orElseThrow(EntityNotFoundException::new);

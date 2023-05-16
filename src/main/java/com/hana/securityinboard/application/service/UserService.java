@@ -12,6 +12,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,7 +36,6 @@ public class UserService {
 
     @Transactional
     public void saveUser(UserAccountDto userAccountDto) {
-        log.info("[UserService saveUser]");
         if (userRepository.findByUsername(userAccountDto.username()).isPresent()) {
             throw new IllegalStateException("로그인 아이디는 중복될 수 없습니다!");
         }
@@ -43,7 +44,6 @@ public class UserService {
 
     @Transactional
     public UserAccount saveUser(UserAccount userAccount) {
-        log.info("[UserService saveUser]");
         if (userRepository.findByUsername(userAccount.getUsername()).isPresent()) {
             throw new IllegalStateException("로그인 아이디는 중복될 수 없습니다!");
         }
@@ -87,6 +87,11 @@ public class UserService {
 
     @Transactional
     public void blockUser(String username) {
-
+        UserAccount user = userRepository.findByUsername(username).orElseThrow(() -> new EntityNotFoundException());
+        user.heIsBlocked();
     }
+
+
+
+
 }

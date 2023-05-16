@@ -93,11 +93,6 @@ public class SecurityConfig {
                             oauth.successHandler(customAuthenticationSuccessHandler());
                             oauth.defaultSuccessUrl("/home");
                         })
-                        .sessionManagement(session -> session
-                                .maximumSessions(1)
-                                .maxSessionsPreventsLogin(true)
-                                .sessionRegistry(sessionRegistry())
-                        )
 //                        .addFilterBefore(new JwtAuthenticationFilter(userDetailsService, userService), UsernamePasswordAuthenticationFilter.class)
                         .build();
     }
