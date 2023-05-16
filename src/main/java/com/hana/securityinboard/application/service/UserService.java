@@ -85,5 +85,8 @@ public class UserService {
         user.changeRoleManager(user);
     }
 
+    @Transactional
+    public void blockUser(String username) {
 
+    }
 }

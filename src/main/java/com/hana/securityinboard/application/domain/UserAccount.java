@@ -35,19 +35,22 @@ public class UserAccount {
     private RoleType roleType; // 관리자, 운영자, 유저 한명은 한개의 Role만 가질 수 있음
 
     private Integer loginDay; // 총 몇번 접속했는지
-    private Integer articleCount; // 몇개의 게시글
-    private Integer articleCommentCount; //몇개의 댓글
+    private Integer articleCount; // 작성한 게시글 수
+
+    private Boolean isBlocked; // 차단당했는지 여부
+    private LocalDateTime blockedDate; //언제 차단 당했는지
+
 
     public static UserAccount of(String username, String password, String email, String name, RoleType role) {
-        return of(username, password, email, name, LocalDateTime.now(), LocalDateTime.now(), null, role, 1, 0, 0);
+        return of(username, password, email, name, LocalDateTime.now(), LocalDateTime.now(), null, role, 1, 0);
     }
 
-    public static UserAccount of(String username, String password, String email, String name, LocalDateTime accountDate, LocalDateTime lastLoginDate, String lastLoginIp, RoleType roleType, Integer loginDay, Integer articleCount, Integer articleCommentCount) {
-        return new UserAccount(username, password, email, name, accountDate, lastLoginDate, lastLoginIp, roleType, loginDay, articleCount, articleCommentCount);
+    public static UserAccount of(String username, String password, String email, String name, LocalDateTime accountDate, LocalDateTime lastLoginDate, String lastLoginIp, RoleType roleType, Integer loginDay, Integer articleCount) {
+        return new UserAccount(username, password, email, name, accountDate, lastLoginDate, lastLoginIp, roleType, loginDay, articleCount);
     }
 
 
-    private UserAccount(String username, String password, String email, String name, LocalDateTime accountDate, LocalDateTime lastLoginDate, String lastLoginIp, RoleType roleType, Integer loginDay, Integer articleCount, Integer articleCommentCount) {
+    private UserAccount(String username, String password, String email, String name, LocalDateTime accountDate, LocalDateTime lastLoginDate, String lastLoginIp, RoleType roleType, Integer loginDay, Integer articleCount) {
         this.username = username;
         this.password = password;
         this.email = email;
@@ -58,7 +61,6 @@ public class UserAccount {
         this.roleType = roleType;
         this.loginDay = loginDay;
         this.articleCount = articleCount;
-        this.articleCommentCount = articleCommentCount;
     }
 
 

@@ -16,13 +16,12 @@ public record UserAccountDto(
         String lastLoginIp,
         RoleType roleType,
         Integer loginDay,
-        Integer articleCount,
-        Integer articleCommentCount
+        Integer articleCount
 
 ) {
 
-    public static UserAccountDto of(String username, String password, String email, String name, LocalDateTime accountDate, LocalDateTime lastLoginDate, String lastLoginIp, RoleType roleType, Integer loginDay, Integer articleCount, Integer articleCommentCount) {
-        return new UserAccountDto(username, password, email, name, accountDate, lastLoginDate, lastLoginIp, roleType, loginDay, articleCount, articleCommentCount);
+    public static UserAccountDto of(String username, String password, String email, String name, LocalDateTime accountDate, LocalDateTime lastLoginDate, String lastLoginIp, RoleType roleType, Integer loginDay, Integer articleCount) {
+        return new UserAccountDto(username, password, email, name, accountDate, lastLoginDate, lastLoginIp, roleType, loginDay, articleCount);
     }
 
     public static UserAccountDto form (UserAccount userAccount) {
@@ -36,8 +35,7 @@ public record UserAccountDto(
                 userAccount.getLastLoginIp(),
                 userAccount.getRoleType(),
                 userAccount.getLoginDay(),
-                userAccount.getArticleCount(),
-                userAccount.getArticleCommentCount()
+                userAccount.getArticleCount()
         );
     }
 
@@ -53,7 +51,6 @@ public record UserAccountDto(
                 lastLoginIp,
                 RoleType.SILVER,
                 1,
-                0,
                 0
         );
     }
@@ -68,13 +65,12 @@ public record UserAccountDto(
                 lastLoginIp,
                 roleType,
                 loginDay,
-                articleCount,
-                articleCommentCount
+                articleCount
         );
     }
 
 
-    public UserAccountDto(String username, String password, String email, String name, LocalDateTime accountDate, LocalDateTime lastLoginDate, String lastLoginIp, RoleType roleType, Integer loginDay, Integer articleCount, Integer articleCommentCount) {
+    public UserAccountDto(String username, String password, String email, String name, LocalDateTime accountDate, LocalDateTime lastLoginDate, String lastLoginIp, RoleType roleType, Integer loginDay, Integer articleCount) {
         this.username = username;
         this.password = password;
         this.email = email;
@@ -85,6 +81,5 @@ public record UserAccountDto(
         this.roleType = roleType;
         this.loginDay = loginDay;
         this.articleCount = articleCount;
-        this.articleCommentCount = articleCommentCount;
     }
 }

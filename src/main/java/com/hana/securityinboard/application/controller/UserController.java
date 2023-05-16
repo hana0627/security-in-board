@@ -76,8 +76,6 @@ public class UserController {
 
     @GetMapping("/user/detail/{username}")
     public String userDetail(@PathVariable String username, Model model) {
-        log.info("[UserController userDetail] - called");
-        log.info("username : {}",username);
         UserAccountDto user = userService.findUser(username);
         model.addAttribute("user",user);
 
@@ -85,12 +83,17 @@ public class UserController {
     }
 
     @PostMapping("/user/registManager/{username}")
-    public String addManager(@PathVariable String username, Model model) {
+    public String addManager(@PathVariable String username) {
         userService.createManger(username);
         return "redirect:/user/userList/";
     }
 
-
-
+    @PostMapping("/user/block/{username}")
+    public String blockUser(@PathVariable String username) {
+        log.info("[UserController - blockUser] - called");
+        log.info("username = {}" , username);
+        userService.blockUser(username);
+        return "home";
+    }
 
 }
