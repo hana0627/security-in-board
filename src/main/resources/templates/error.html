@@ -5,6 +5,9 @@
     <title>에러페이지</title>
 </head>
 <body>
+<input type="hidden"
+       th:name="${_csrf.parameterName}"
+       th:value="${_csrf.token}" />
 예상치 못한 요청입니다!
 다시 시도해주세요!
 </body>

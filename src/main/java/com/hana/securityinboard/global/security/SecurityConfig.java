@@ -57,7 +57,8 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return
                 http
-                        .csrf(c -> c.disable())
+//                        .csrf(c -> c.disable())
+                        .csrf(c -> c.ignoringRequestMatchers("/login"))
                         .sessionManagement(s -> s
                                 .maximumSessions(1)
                                 .maxSessionsPreventsLogin(true)

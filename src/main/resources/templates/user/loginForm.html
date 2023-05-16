@@ -8,8 +8,8 @@
 <body>
 <h1>로그인 페이지</h1>
 <hr/>
-
 <form action="/login" method="post">
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
     <input type="text" name="username"/><br>
     <input type="password" name="password"/>
     <button>로그인</button><br>

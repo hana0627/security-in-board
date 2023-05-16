@@ -27,10 +27,12 @@
             <td th:text="${user.articleCount}"></td>
         </table>
         <form th:action="@{/user/registManager/{username}(username=${user.username})}" th:method="post">
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
             <input type="hidden" id="username" name="username" th:value="${user.username}">
             <button type="submit" >매니저로 등록하기</button>
         </form>
         <form th:action="@{/user/block/{username}(username=${user.username})}" th:method="post">
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
             <input type="hidden" id="username" name="username" th:value="${user.username}">
             <button type="submit" >차단하기</button>
         </form>
