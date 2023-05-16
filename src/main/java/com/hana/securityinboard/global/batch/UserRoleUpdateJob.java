@@ -50,17 +50,6 @@ public class UserRoleUpdateJob {
 
 
 
-//    @StepScope
-//    @Bean
-//    public RepositoryItemWriter<UserAccount> userWriter() {
-//        return new RepositoryItemWriterBuilder<UserAccount>()
-//                .repository(userRepository)
-//                .methodName("findAll")
-//                .build();
-//
-//    }
-
-    @StepScope
     @Bean
     public ItemProcessor<UserAccount, UserAccount> userProcessor() {
         return new ItemProcessor<UserAccount, UserAccount>() {

@@ -1,0 +1,25 @@
+package com.hana.securityinboard.global.util;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import lombok.Getter;
+
+/**
+ * 무조건 카운터역할만 수행
+ */
+@Getter
+@Entity
+public class LoginCounter {
+
+    @Id
+    private Long id;
+
+    private Integer todayVisit;
+    private Integer totalVisit;
+
+    public void loginCount() {
+        todayVisit++;
+        todayVisit++;
+    }
+
+}
