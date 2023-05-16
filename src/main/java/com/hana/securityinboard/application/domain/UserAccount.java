@@ -46,11 +46,11 @@ public class UserAccount {
     }
 
     public static UserAccount of(String username, String password, String email, String name, LocalDateTime accountDate, LocalDateTime lastLoginDate, String lastLoginIp, RoleType roleType, Integer loginDay, Integer articleCount) {
-        return new UserAccount(username, password, email, name, accountDate, lastLoginDate, lastLoginIp, roleType, loginDay, articleCount);
+        return new UserAccount(username, password, email, name, accountDate, lastLoginDate, lastLoginIp, roleType, loginDay, articleCount, false);
     }
 
 
-    private UserAccount(String username, String password, String email, String name, LocalDateTime accountDate, LocalDateTime lastLoginDate, String lastLoginIp, RoleType roleType, Integer loginDay, Integer articleCount) {
+    private UserAccount(String username, String password, String email, String name, LocalDateTime accountDate, LocalDateTime lastLoginDate, String lastLoginIp, RoleType roleType, Integer loginDay, Integer articleCount, Boolean isBlocked) {
         this.username = username;
         this.password = password;
         this.email = email;
@@ -61,6 +61,7 @@ public class UserAccount {
         this.roleType = roleType;
         this.loginDay = loginDay;
         this.articleCount = articleCount;
+        this.isBlocked = isBlocked;
     }
 
 
@@ -113,5 +114,10 @@ public class UserAccount {
 
     public void changeRoleManager(UserAccount user) {
         this.roleType = RoleType.MANAGER;
+    }
+
+    public void heIsBlocked() {
+        this.isBlocked = true;
+        this.blockedDate = LocalDateTime.now();
     }
 }

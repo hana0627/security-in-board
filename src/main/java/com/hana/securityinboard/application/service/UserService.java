@@ -87,6 +87,7 @@ public class UserService {
 
     @Transactional
     public void blockUser(String username) {
-
+        UserAccount user = userRepository.findByUsername(username).orElseThrow(() -> new EntityNotFoundException());
+        user.heIsBlocked();
     }
 }
