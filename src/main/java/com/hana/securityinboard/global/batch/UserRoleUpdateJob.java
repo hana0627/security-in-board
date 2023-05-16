@@ -39,12 +39,11 @@ public class UserRoleUpdateJob {
 
     @JobScope
     @Bean
-    public Step userRoleStep(ItemReader readeUsers, ItemProcessor userProcessor, ItemWriter userWriter) {
+    public Step userRoleStep(ItemReader readeUsers, ItemProcessor userProcessor) {
         return new StepBuilder("userRoleStep")
                 .<UserAccount, UserAccount>chunk(5)
                 .reader(readeUsers)
                 .processor(userProcessor)
-//                .writer(userWriter)
                 .build();
     }
 

@@ -3,6 +3,7 @@ package com.hana.securityinboard.global.util;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.Getter;
+import lombok.Setter;
 
 /**
  * 무조건 카운터역할만 수행
@@ -14,7 +15,7 @@ public class LoginCounter {
     @Id
     private Long id;
 
-    private Integer todayVisit;
+    @Setter private Integer todayVisit;
     private Integer totalVisit;
 
     public void loginCount() {
